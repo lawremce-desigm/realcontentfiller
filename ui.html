@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Real Data Filler</title>
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    margin: 0; padding: 16px;
+    background: #fff;
+    color: #111;
+  }
+
+  .tabs {
+    display: flex;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 16px;
+  }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+    color: #666;
+    user-select: none;
+  }
+  .tab.active {
+    border-color: #490075;
+    color: #490075;
+  }
+
+  button {
+    margin-top: 16px;
+    width: 100%;
+    background: #490075;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .info {
+    font-size: 12px;
+    color: #999;
+    margin-top: 8px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="tabs">
+    <div class="tab active" data-type="names">Names</div>
+    <div class="tab" data-type="cities">Cities</div>
+    <div class="tab" data-type="emails">Emails</div>
+  </div>
+
+  <button id="fillButton">Fill Selected Layers</button>
+
+  <div class="info">Select text layers and choose a category to fill them with sample data.</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  let selectedType = 'names';
+
+  tabs.forEach(tab => {
+    tab.onclick = () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      selectedType = tab.getAttribute('data-type');
+    }
+  });
+
+  document.getElementById('fillButton').onclick = () => {
+    parent.postMessage({ pluginMessage: { type: 'fill-data', category: selectedType } }, '*');
+  }
+</script>
+</body>
+</html>
